@@ -1,9 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { productListReducer } from './reducers/productListReducer';
 
 const reducer = combineReducers({
-  //bring in reducers here
+  productList: productListReducer,
 });
 
 const initialState = {}; //whatever we want loaded in when the application starts
