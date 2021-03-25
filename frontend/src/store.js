@@ -5,13 +5,21 @@ import {
   productListReducer,
   productDetailsReducer,
 } from './reducers/productReducer';
+import { cartReducer } from './reducers/cartReducer';
 
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
+  cart: cartReducer,
 });
 
-const initialState = {}; //whatever we want loaded in when the application starts
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
+  : [];
+
+const initialState = {
+  cart: { cartItems: cartItemsFromStorage },
+}; //whatever we want loaded in when the application starts
 
 const middleware = [thunk]; //to allows async and to use devtools
 
