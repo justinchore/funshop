@@ -4,7 +4,8 @@ import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listProducts } from '../actions/productActions';
+import { listProducts, deleteProduct } from '../actions/productActions';
+import { PRODUCT_DELETE_RESET } from '../constants/productConstants';
 
 const ProductListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -15,18 +16,26 @@ const ProductListScreen = ({ history }) => {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
+  const productDelete = useSelector(state => state.productDelete);
+  const {
+    success: deleteSuccess,
+    loading: deleteLoading,
+    error: deleteError,
+  } = productDelete;
+
   useEffect(() => {
     console.log('productlist');
     if (userInfo && userInfo.isAdmin) {
+      dispatch({ type: PRODUCT_DELETE_RESET });
       dispatch(listProducts());
     } else {
       history.push('/login');
     }
-  }, [dispatch, userInfo, history]);
+  }, [dispatch, userInfo, history, deleteSuccess]);
 
   const deleteHandler = id => {
     if (window.confirm('Are you sure?')) {
-      //DELETE PRODUCTS;
+      dispatch(deleteProduct(id));
     }
   };
 
@@ -40,12 +49,15 @@ const ProductListScreen = ({ history }) => {
         <Col>
           <h1>Products</h1>
         </Col>
+        {deleteSuccess && <Message variant='success'>Product Deleted</Message>}
         <Col className='text-right'>
           <Button className='my-3' onClick={createProductHandler}>
             <i className='fas fa-plus'></i> Create Product
           </Button>
         </Col>
       </Row>
+      {deleteLoading && <Loader />}
+      {deleteError && <Message variant='danger'>{deleteError}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
