@@ -71,16 +71,16 @@ const updateProduct = asyncHandler(async (req, res) => {
     category,
     countInStock,
   } = req.body;
-  const product = Product.findById(req.params.id);
+  const product = await Product.findById(req.params.id);
 
   if (product) {
-    (product.name = name),
-      (product.price = price),
-      (product.description = description),
-      (product.image = image),
-      (product.brand = brand),
-      (product.category = category),
-      (product.countInStock = countInStock);
+    product.name = name;
+    product.price = price;
+    product.description = description;
+    product.image = image;
+    product.brand = brand;
+    product.category = category;
+    product.countInStock = countInStock;
 
     const updatedProduct = await product.save();
     res.status(201).json(updatedProduct);
