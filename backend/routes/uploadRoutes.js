@@ -21,7 +21,7 @@ function checkFileType(file, cb) {
   const mimetype = filetypes.test(file.mimetype);
 
   if (extname && mimetype) {
-    return db(null, true);
+    return cb(null, true);
   } else {
     cb('Image only!');
   }
