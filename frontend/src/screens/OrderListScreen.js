@@ -11,7 +11,7 @@ const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   const orderList = useSelector(state => state.orderList);
-  const { orders, loading, success, error } = orderList;
+  const { orders, loading, error } = orderList;
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
