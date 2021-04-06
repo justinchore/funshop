@@ -196,7 +196,7 @@ export const listOrders = () => async (dispatch, getState) => {
   }
 };
 
-export const orderDelivered = orderId => async (dispatch, getState) => {
+export const setOrderDelivered = orderId => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_DELIVERED_REQUEST,
@@ -212,10 +212,7 @@ export const orderDelivered = orderId => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `/api/orders/${orderId}/delivered`,
-      config
-    );
+    await axios.put(`/api/orders/${orderId}/delivered`, {}, config);
 
     dispatch({
       type: ORDER_DELIVERED_SUCCESS,

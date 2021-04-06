@@ -4,7 +4,8 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getOrderDetails } from '../actions/orderActions';
+import { getOrderDetails, setOrderDelivered } from '../actions/orderActions';
+import { ORDER_DELIVERED_RESET } from '../constants/orderConstants';
 
 const OrderDetailScreen = ({ history, match }) => {
   const orderId = match.params.id;
@@ -13,6 +14,13 @@ const OrderDetailScreen = ({ history, match }) => {
 
   const orderDetails = useSelector(state => state.orderDetails);
   const { order, error, loading } = orderDetails;
+
+  const orderDelivered = useSelector(state => state.orderDelivered);
+  const {
+    loading: deliveredLoading,
+    success: deliveredSuccess,
+    error: deliveredError,
+  } = orderDelivered;
 
   if (!loading) {
     const addDecimals = num => {
@@ -26,10 +34,15 @@ const OrderDetailScreen = ({ history, match }) => {
 
   useEffect(() => {
     console.log('here');
-    if (!order || order._id !== orderId) {
+    if (!order || order._id !== orderId || deliveredSuccess) {
+      dispatch({ type: ORDER_DELIVERED_RESET });
       dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, order, orderId]);
+  }, [dispatch, order, orderId, deliveredSuccess]);
+
+  const orderIsDeliveredHandler = () => {
+    dispatch(setOrderDelivered(order._id));
+  };
 
   return loading ? (
     <Loader />
@@ -60,6 +73,18 @@ const OrderDetailScreen = ({ history, match }) => {
                 <Message variant='success'>Delivered</Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>
+              )}
+              {!order.isDelivered && (
+                <Button onClick={orderIsDeliveredHandler}>
+                  {' '}
+                  Change to Delivered
+                </Button>
+              )}
+              {order.isDelivered && (
+                <Button onClick={orderIsDeliveredHandler}>
+                  {' '}
+                  Change to Not Delivered
+                </Button>
               )}
             </ListGroup.Item>
             <ListGroup.Item>
