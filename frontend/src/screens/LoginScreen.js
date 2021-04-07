@@ -31,6 +31,14 @@ const LoginScreen = ({ history, location }) => {
     dispatch(login(email, password));
   };
 
+  const sampleUser = () => {
+    dispatch(login('sample@example.com', '123456'));
+  };
+
+  const adminUser = () => {
+    dispatch(login('admin@example.com', '123456'));
+  };
+
   return (
     <FormContainer>
       <Meta title='Login'></Meta>
@@ -62,12 +70,28 @@ const LoginScreen = ({ history, location }) => {
         </Button>
       </Form>
 
-      <Row className='py-3'>
+      <Row className='py-3 mt-4'>
         <Col>
           New Customer?{' '}
           <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             Register
           </Link>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <Button variant='info' className='btn-sm' onClick={sampleUser}>
+            Log in as a sample user
+          </Button>
+        </Col>
+      </Row>
+
+      <Row className='mt-2'>
+        <Col>
+          <Button variant='info' className='btn-sm' onClick={adminUser}>
+            Log in as a sample admin
+          </Button>
         </Col>
       </Row>
     </FormContainer>

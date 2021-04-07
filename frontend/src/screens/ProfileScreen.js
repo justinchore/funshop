@@ -45,7 +45,7 @@ const ProfileScreen = ({ history, location }) => {
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, userInfo, user, success]);
+  }, [dispatch, history, userInfo, user, success, userLogin]);
 
   const submitHandler = e => {
     e.preventDefault();
@@ -65,48 +65,72 @@ const ProfileScreen = ({ history, location }) => {
         {error && <Message variant='danger'>{error}</Message>}
         {success && <Message variant='success'>Profile Updated</Message>}
         {loading && <Loader />}
-        <Form onSubmit={submitHandler}>
-          <Form.Group controlId='name'>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type='name'
-              placeholder='Enter Name'
-              value={name}
-              onChange={e => setName(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId='email'>
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type='email'
-              placeholder='Enter Email'
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+        {userInfo && (
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId='name'>
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type='name'
+                placeholder='Enter Name'
+                value={name}
+                onChange={e => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId='email'>
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type='email'
+                placeholder='Enter Email'
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group controlId='password'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Enter Password'
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId='confirmPassword'>
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Confirm Password'
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Button type='submit' variant='primary'>
-            Update
-          </Button>
-        </Form>
+            <Form.Group controlId='password'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type='password'
+                placeholder={
+                  userInfo.email === 'sample@example.com' ||
+                  userInfo.email === 'admin@example.com'
+                    ? 'Sample Disabled'
+                    : 'Enter Password'
+                }
+                disabled={
+                  userInfo.email === 'sample@example.com' ||
+                  userInfo.email === 'admin@example.com'
+                    ? true
+                    : false
+                }
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId='confirmPassword'>
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type='password'
+                placeholder={
+                  userInfo.email === 'sample@example.com' ||
+                  userInfo.email === 'admin@example.com'
+                    ? 'Sample Disabled'
+                    : 'Enter Password'
+                }
+                disabled={
+                  userInfo.email === 'sample@example.com' ||
+                  userInfo.email === 'admin@example.com'
+                    ? true
+                    : false
+                }
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Button type='submit' variant='primary'>
+              Update
+            </Button>
+          </Form>
+        )}
       </Col>
       <Col md={9}>
         <h2>My Orders</h2>

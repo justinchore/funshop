@@ -27,12 +27,16 @@ h2 {
   top: 0;
 }
 
+.carousel-control-prev {
+  color: black;
+}
+
 .carousel-caption h2 {
-  color: #fff;
+  color: rgb(0, 0, 0);
 }
 
 .carousel img {
-  height: 300px;
+  height: 250px;
   padding: 30px;
   margin: 40px;
   border-radius: 50%;
