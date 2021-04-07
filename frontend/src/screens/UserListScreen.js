@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import Meta from '../components/Meta';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listUsers, deleteUser } from '../actions/userActions';
@@ -34,6 +35,7 @@ const UserListScreen = ({ history }) => {
 
   return (
     <>
+      <Meta title='User List' />
       <h1>Users</h1>
       {loading ? (
         <Loader />
@@ -72,13 +74,15 @@ const UserListScreen = ({ history }) => {
                     </Button>
                   </LinkContainer>
                 </td>
-                <Button
-                  variant='danger'
-                  className='btn-sm'
-                  onClick={() => deleteHandler(user._id)}
-                >
-                  <i className='fas fa-trash'></i>
-                </Button>
+                <td>
+                  <Button
+                    variant='danger'
+                    className='btn-sm'
+                    onClick={() => deleteHandler(user._id)}
+                  >
+                    <i className='fas fa-trash'></i>
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>

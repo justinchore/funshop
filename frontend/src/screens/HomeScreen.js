@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product';
 import { listProducts } from '../actions/productActions';
 import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 import Paginate from '../components/Paginate';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -22,7 +24,15 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
-      {!keyword && <ProductCarousel />}
+      <Meta />
+
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to='/' className='btn btn-primary mb-4 mt-4'>
+          All Products
+        </Link>
+      )}
       <h1>Latest Products</h1>
       {loading ? ( //if loading is true
         <Loader /> //display loading text

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import Meta from '../components/Meta';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { savePaymentMethod } from '../actions/cartActions';
@@ -10,6 +11,15 @@ const PaymentScreen = ({ history }) => {
   const { shippingAddress } = cart;
 
   const dispatch = useDispatch();
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push('/');
+    }
+  }, [userInfo, history]);
 
   if (!shippingAddress) {
     history.push('/shipping');
@@ -24,6 +34,7 @@ const PaymentScreen = ({ history }) => {
   };
   return (
     <FormContainer>
+      <Meta title='Payment Method' />
       <CheckoutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
       <Form onSubmit={submitHandler}>

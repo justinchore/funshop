@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../actions/orderActions';
 
@@ -28,12 +29,18 @@ const PlaceOrderScreen = ({ history }) => {
   const orderCreate = useSelector(state => state.orderCreate);
   const { order, success, error } = orderCreate;
 
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
+    if (!userInfo) {
+      history.push('/');
+    }
     if (success) {
       history.push(`/order/${order._id}`);
     }
     // eslint-disable-next-line
-  }, [history, success]);
+  }, [history, success, userInfo]);
 
   const placeOrderHandler = () => {
     dispatch(
@@ -52,6 +59,7 @@ const PlaceOrderScreen = ({ history }) => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
+      <Meta title='Place Order' />
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>

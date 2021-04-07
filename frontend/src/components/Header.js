@@ -12,7 +12,6 @@ const Header = () => {
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {
-    console.log('logout');
     dispatch(logout());
   };
   return (

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 import Loader from '../components/Loader';
 import { listProductDetails, updateProduct } from '../actions/productActions';
 import FormContainer from '../components/FormContainer';
@@ -32,7 +33,13 @@ const ProductEditScreen = ({ history, match }) => {
     success: successUpdate,
   } = productUpdate;
 
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
+    if (!userInfo || !userInfo.isAdmin) {
+      history.push('/login');
+    }
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       history.push('/admin/productlist');
@@ -49,7 +56,7 @@ const ProductEditScreen = ({ history, match }) => {
         setDescription(product.description);
       }
     }
-  }, [product, dispatch, history, productId, successUpdate]);
+  }, [product, dispatch, history, productId, successUpdate, userInfo]);
 
   const uploadFileHandler = async e => {
     const file = e.target.files[0];
@@ -95,6 +102,7 @@ const ProductEditScreen = ({ history, match }) => {
       <Link to='/admin/productlist' className='btn btn-light my-3'>
         Go Back
       </Link>
+      <Meta title='Product Edit' />
       <FormContainer>
         <h1>Edit Product</h1>
         {loadingUpdate && <Loader />}

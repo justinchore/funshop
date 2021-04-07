@@ -6,6 +6,7 @@ import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 import { getOrderDetails } from '../actions/orderActions';
 import { payOrder } from '../actions/orderActions';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
@@ -14,7 +15,7 @@ const OrderScreen = ({ history, match }) => {
   const orderId = match.params.id;
 
   const [sdkReady, setSdkReady] = useState(false);
-  console.log(match.params);
+
   const dispatch = useDispatch();
 
   const orderDetails = useSelector(state => state.orderDetails);
@@ -22,6 +23,9 @@ const OrderScreen = ({ history, match }) => {
 
   const orderPay = useSelector(state => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
 
   if (!loading) {
     const addDecimals = num => {
@@ -46,6 +50,10 @@ const OrderScreen = ({ history, match }) => {
       document.body.appendChild(script);
     };
 
+    if (!userInfo) {
+      history.push('/login');
+    }
+
     if (!order || successPay || order._id !== orderId) {
       dispatch({
         type: ORDER_PAY_RESET,
@@ -58,10 +66,9 @@ const OrderScreen = ({ history, match }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [dispatch, order, orderId, successPay, userInfo, history]);
 
   const successPaymentHandler = paymentResult => {
-    console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
   };
 
@@ -71,6 +78,7 @@ const OrderScreen = ({ history, match }) => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
+      <Meta title='Checkout' />
       <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>

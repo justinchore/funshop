@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import Meta from '../components/Meta';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getUserDetails, updateUser } from '../actions/userActions';
@@ -58,6 +59,7 @@ const UserEditScreen = ({ history, match }) => {
       <Link to='/admin/userlist' className='btn btn-light my-3'>
         Go Back
       </Link>
+      <Meta title='User Edit' />
       <FormContainer>
         <h1>Edit User</h1>
         {loadingUpdate && <Loader />}

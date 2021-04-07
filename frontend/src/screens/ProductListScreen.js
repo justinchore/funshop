@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import Meta from '../components/Meta';
 import Paginate from '../components/Paginate';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -76,6 +77,7 @@ const ProductListScreen = ({ history, match }) => {
 
   return (
     <>
+      <Meta title='Product List' />
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>
@@ -122,13 +124,15 @@ const ProductListScreen = ({ history, match }) => {
                       </Button>
                     </LinkContainer>
                   </td>
-                  <Button
-                    variant='danger'
-                    className='btn-sm'
-                    onClick={() => deleteHandler(product._id)}
-                  >
-                    <i className='fas fa-trash'></i>
-                  </Button>
+                  <td>
+                    <Button
+                      variant='danger'
+                      className='btn-sm'
+                      onClick={() => deleteHandler(product._id)}
+                    >
+                      <i className='fas fa-trash'></i>
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>

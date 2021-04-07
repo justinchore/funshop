@@ -4,6 +4,7 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 import { getOrderDetails, setOrderDelivered } from '../actions/orderActions';
 import { ORDER_DELIVERED_RESET } from '../constants/orderConstants';
 
@@ -19,11 +20,7 @@ const OrderDetailScreen = ({ history, match }) => {
   const { order, error, loading } = orderDetails;
 
   const orderDelivered = useSelector(state => state.orderDelivered);
-  const {
-    loading: deliveredLoading,
-    success: deliveredSuccess,
-    error: deliveredError,
-  } = orderDelivered;
+  const { success: deliveredSuccess } = orderDelivered;
 
   if (!loading) {
     const addDecimals = num => {
@@ -39,12 +36,12 @@ const OrderDetailScreen = ({ history, match }) => {
     if (!userInfo || !userInfo.isAdmin) {
       history.push('/login');
     }
-    console.log('here');
+
     if (!order || order._id !== orderId || deliveredSuccess) {
       dispatch({ type: ORDER_DELIVERED_RESET });
       dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, order, orderId, deliveredSuccess]);
+  }, [dispatch, order, orderId, deliveredSuccess, history, userInfo]);
 
   const orderIsDeliveredHandler = () => {
     dispatch(setOrderDelivered(order._id));
@@ -56,6 +53,7 @@ const OrderDetailScreen = ({ history, match }) => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
+      <Meta title='Admin Order Details' />
       <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>

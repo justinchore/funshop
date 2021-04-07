@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import Meta from '../components/Meta';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { login } from '../actions/userActions';
@@ -32,6 +33,7 @@ const LoginScreen = ({ history, location }) => {
 
   return (
     <FormContainer>
+      <Meta title='Login'></Meta>
       <h1>Sign In</h1>
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}

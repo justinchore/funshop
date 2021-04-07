@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 import Loader from '../components/Loader';
 import { register } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
@@ -38,6 +39,7 @@ const RegisterScreen = ({ history, location }) => {
 
   return (
     <FormContainer>
+      <Meta title='Register' />
       <h1>Sign Up</h1>
       {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
