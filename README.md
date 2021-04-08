@@ -45,7 +45,7 @@ const errorHandler = (err, req, res, next) => {
 };
 ```
 
-In the server file, the placement of these middleware function calls are important. They must be under the route references.
+In the server file, the placement of these middleware function calls is important. They must be under the route references.
 
 ### Frontend: Error Handling
 
